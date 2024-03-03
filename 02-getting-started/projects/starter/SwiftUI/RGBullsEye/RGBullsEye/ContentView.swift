@@ -33,14 +33,67 @@
 import SwiftUI
 
 struct ContentView: View {
-  var body: some View {
-    Text("Hello, world!")
-      .padding()
-  }
+    @State var game = Game()
+
+    @State var guess = RGB()
+
+    @State var showsResult = false
+
+    var body: some View {
+        VStack {
+            Circle()
+                .foregroundStyle(Color.init(rgbStruct: game.target))
+            targetText
+                .padding(.vertical)
+
+            Circle()
+                .foregroundStyle(Color.init(rgbStruct: guess))
+            Text(guess.intString())
+                .padding(.vertical)
+            ColorSlider(trackColor: .red, value: $guess.red)
+            ColorSlider(trackColor: .green, value: $guess.green)
+            ColorSlider(trackColor: .blue, value: $guess.blue)
+
+            Button(action: { action() }, label: {
+                Text("Hit me")
+            })
+        }
+        .alert(isPresented: $showsResult,
+               content: {
+            Alert(
+                title: Text(
+                    "Your score"
+                ),
+                message: Text("\(game.scoreRound)"),
+                dismissButton: .cancel(Text("Okay"), action: {
+                    startNewGame()
+                })
+            )
+        })
+    }
+
+    func action() {
+        game.check(guess: guess)
+        showsResult = true
+    }
+
+    func startNewGame() {
+        game.startNewGame()
+        guess = .init()
+    }
+
+    var targetText: some View {
+        if game.scoreRound == 0 {
+            return Text("R: ???, G: ???, B: ???")
+        } else {
+            return Text(game.target.intString())
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+    static var previews: some View {
+        ContentView()
+    }
 }
+

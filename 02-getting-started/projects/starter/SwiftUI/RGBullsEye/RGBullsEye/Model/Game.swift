@@ -33,7 +33,6 @@
 import Foundation
 
 struct Game {
-  let start = RGB()
   var target = RGB.random()
   var round = 1
   var scoreRound = 0
