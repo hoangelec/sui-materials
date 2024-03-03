@@ -42,12 +42,12 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Circle()
-                .foregroundStyle(Color.init(rgbStruct: game.target))
+                .fill(Color.init(rgbStruct: game.target))
             targetText
                 .padding(.vertical)
 
             Circle()
-                .foregroundStyle(Color.init(rgbStruct: guess))
+                .fill(Color.init(rgbStruct: guess))
             Text(guess.intString())
                 .padding(.vertical)
             ColorSlider(trackColor: .red, value: $guess.red)
@@ -83,7 +83,7 @@ struct ContentView: View {
     }
 
     var targetText: some View {
-        if game.scoreRound == 0 {
+        if !showsResult {
             return Text("R: ???, G: ???, B: ???")
         } else {
             return Text(game.target.intString())
