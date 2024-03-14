@@ -1,4 +1,4 @@
-/// Copyright (c) 2023 Kodeco Inc.
+/// Copyright (c) 2024 Kodeco Inc.
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,17 +32,45 @@
 
 import SwiftUI
 
-@main
-struct KuchiApp: App {
-  var body: some Scene {
-    WindowGroup {
-      WelcomeView()
+struct WelcomeView: View {
+    var body: some View {
+        ZStack {
+            Image("welcome-background", bundle: nil)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .opacity(0.2)
+            Label(
+                title: {
+                    VStack {
+                        Text("**Welcome to**")
+                            .font(.headline)
+                        Text("**Kuchi**")
+                            .font(.largeTitle)
+
+                    }
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
+                },
+                icon: {
+                    Image(systemName: "table")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundStyle(Color.red)
+                        .overlay(
+                            Circle()
+                                .stroke(Color.red, lineWidth: 1)
+                        )
+                        .background(Color.gray)
+                        .clipShape(Circle())
+                }
+            )
+            .labelStyle(HorizontallyAlignedLabelStyle())
+
+        }
     }
-  }
 }
 
-struct KuchiApp_Previews: PreviewProvider {
-  static var previews: some View {
-      WelcomeView()
-  }
+#Preview {
+    WelcomeView()
 }

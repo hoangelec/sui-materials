@@ -1,4 +1,4 @@
-/// Copyright (c) 2023 Kodeco Inc.
+/// Copyright (c) 2024 Kodeco Inc.
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,17 +32,20 @@
 
 import SwiftUI
 
-@main
-struct KuchiApp: App {
-  var body: some Scene {
-    WindowGroup {
-      WelcomeView()
-    }
-  }
-}
+struct KuchiTextFieldStyle: TextFieldStyle {
+    public func _body(
+        configuration: TextField<Self._Label>) -> some View {
+          return configuration
+                .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 
-struct KuchiApp_Previews: PreviewProvider {
-  static var previews: some View {
-      WelcomeView()
-  }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(lineWidth: 2)
+                        .foregroundStyle(Color.blue)
+
+                }
+                .padding(.horizontal)
+      }
+
+    
 }
