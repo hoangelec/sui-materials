@@ -1,4 +1,4 @@
-/// Copyright (c) 2023 Kodeco Inc.
+/// Copyright (c) 2024 Kodeco Inc.
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -32,49 +32,21 @@
 
 import SwiftUI
 
-struct WelcomeView: View {
-    @EnvironmentObject var userManager: UserManager
-    @ObservedObject var challengesViewModel = ChallengesViewModel()
-    @State var showPractice = false
+struct ScoreView: View {
+
+    @Binding var numberOfAnswered: Int
+    var numberOfQuestions = 5
 
     var body: some View {
-        Group {
-            if showPractice {
-                // 1
-                PracticeView(
-                    challengeTest: $challengesViewModel.currentChallenge,
-                    userName: $userManager.profile.name
-                )
-            } else {
-                // 2
-                ZStack {
-                    WelcomeBackgroundImage()
-
-                    VStack {
-                        Text(verbatim: "Hi, \(userManager.profile.name)")
-
-                        WelcomeMessageView()
-
-                        // 3
-                        Button(action: {
-                            print("Toggle")
-                            self.showPractice = true
-                        }, label: {
-                            HStack {
-                                Image(systemName: "play")
-                                Text(verbatim: "Start")
-                            }
-                        })
-                    }
-                }
-            }
-        }
+        HStack {
+            Text("\(numberOfAnswered)/\(numberOfQuestions)")
+              .font(.caption)
+              .padding(4)
+            Spacer()
+          }
     }
 }
 
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeView()
-            .environmentObject(UserManager())
-    }
+#Preview {
+    ScoreView(numberOfAnswered: .constant(1))
 }

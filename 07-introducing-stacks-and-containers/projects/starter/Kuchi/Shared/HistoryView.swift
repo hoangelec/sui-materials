@@ -40,7 +40,7 @@ struct History: Hashable {
     let date = Date.init(timeIntervalSinceNow: -TimeInterval.random(in: 0...1000000))
     
     let challenge = ChallengesViewModel.challenges.randomElement()!
-    
+
     return History(
       date: date,
       challenge: challenge
@@ -73,45 +73,51 @@ struct HistoryView: View {
       .background(Color.gray)
   }
   
-  func getElement(_ element: History) -> some View {
-    VStack(alignment: .center) {
-      Text("\(dateFormatter.string(from: element.date))")
-        .font(.caption2)
-        .foregroundColor(.blue)
-      HStack {
-        VStack {
-          Text("Question:")
-            .font(.caption)
-            .foregroundColor(.gray)
-          Text(element.challenge.question)
-            .font(.body)
+    func getElement(_ element: History) -> some View {
+        VStack(alignment: .center) {
+            Text("\(dateFormatter.string(from: element.date))")
+                .font(.caption2)
+                .foregroundColor(.blue)
+            HStack {
+                VStack {
+                    Text("Question:")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Text(element.challenge.question)
+                        .font(.body)
+                }
+
+                VStack {
+                    Text("Answer:")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Text(element.challenge.answer)
+                        .font(.body)
+                }
+
+                VStack {
+                    Text("Guessed")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Text(element.challenge.succeeded ? "yes" : "no")
+                }
+            }
         }
-        
-        VStack {
-          Text("Answer:")
-            .font(.caption)
-            .foregroundColor(.gray)
-          Text(element.challenge.answer)
-            .font(.body)
-        }
-        
-        VStack {
-          Text("Guessed")
-            .font(.caption)
-            .foregroundColor(.gray)
-          Text(element.challenge.succeeded ? "yes" : "no")
-        }
-      }
-    }
-    .padding()
+        .padding()
 #if os(iOS)
-    .frame(width: UIScreen.main.bounds.width)
+        .frame(width: UIScreen.main.bounds.width)
 #endif
-  }
-  
-  var body: some View {
-    EmptyView()
-  }
+    }
+
+    var body: some View {
+        ScrollView {
+          LazyVStack {
+            ForEach(history, id: \.self) { element in
+              getElement(element)
+            }
+          }
+        }
+    }
 }
 
 struct HistoryView_Previews: PreviewProvider {

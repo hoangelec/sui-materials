@@ -33,8 +33,13 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State var x = 5
   var body: some View {
-    EmptyView()
+      VStack {
+          Text("\(_x.wrappedValue)")
+          Text("\(x)")
+      }
+
   }
 }
 

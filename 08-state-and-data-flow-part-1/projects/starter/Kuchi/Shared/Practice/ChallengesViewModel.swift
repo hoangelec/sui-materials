@@ -72,7 +72,10 @@ class ChallengesViewModel: ObservableObject {
   var correctAnswers: [Challenge] = []
   var wrongAnswers: [Challenge] = []
   
-  var numberOfAnswered: Int { return correctAnswers.count }
+    var numberOfAnswered: Int {
+//        print("numberOfAnswered")
+        return correctAnswers.count
+    }
   @Published var currentChallenge: ChallengeTest?
   
   init() {

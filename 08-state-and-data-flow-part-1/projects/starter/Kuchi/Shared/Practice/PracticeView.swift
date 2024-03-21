@@ -36,10 +36,14 @@ import SwiftUI
 struct PracticeView: View {
   @Binding var challengeTest: ChallengeTest?
   @Binding var userName: String
-  
+    @Binding var numberOfAnswered: Int
+
   var body: some View {
+#if DEBUG
+        let _ = Self._printChanges()
+    #endif
     if challengeTest != nil {
-      ChallengeView(challengeTest: challengeTest!)
+        ChallengeView(challengeTest: challengeTest!, numberOfAnswered: $numberOfAnswered)
     } else {
       CongratulationsView(userName: userName)
     }
@@ -56,7 +60,7 @@ struct PracticeView_Previews: PreviewProvider {
   static var previews: some View {
     return PracticeView(
       challengeTest: .constant(challengeTest),
-      userName: .constant("Johnny Swift")
+      userName: .constant("Johnny Swift"), numberOfAnswered: .constant(1)
     )
   }
 }

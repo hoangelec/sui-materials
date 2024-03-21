@@ -33,16 +33,29 @@
 import SwiftUI
 
 struct WelcomeView: View {
-  @EnvironmentObject var userManager: UserManager
-  @ObservedObject var challengesViewModel = ChallengesViewModel()
-  @State var showPractice = false
-  
-  var body: some View {
-    if showPractice {
-      PracticeView(
-        challengeTest: $challengesViewModel.currentChallenge,
-        userName: $userManager.profile.name
-      )
+    @EnvironmentObject var userManager: UserManager
+    @EnvironmentObject var challengesViewModel: ChallengesViewModel
+    @State var showPractice = false
+
+    var body: some View {
+#if DEBUG
+        let _ = Self._printChanges()
+    #endif
+        if showPractice {
+            VStack {
+                PracticeView(
+                  challengeTest: $challengesViewModel.currentChallenge,
+                  userName: $userManager.profile.name,
+                  numberOfAnswered: .constant(challengesViewModel.numberOfAnswered)
+
+                )
+                Button(action: { 
+                    challengesViewModel.correctAnswers.append(.init(question: "", pronunciation: "", answer: ""))
+                 } , label: {
+                    Text("Click here")
+                })
+            }
+
     } else {
       ZStack {
         WelcomeBackgroundImage()
